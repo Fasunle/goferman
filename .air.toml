@@ -1,0 +1,56 @@
+# .air.toml
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  cmd = "go build -o ./tmp/main ./src/main.go"
+  entrypoint = ["./tmp/main"]
+  delay = 1000
+  exclude_dir = ["assets", "tmp", "vendor", "node_modules"]
+  include_ext = ["go", "tpl", "tmpl", "html"]
+  exclude_regex = ["_test.go"]
+  include_file = []
+  kill_delay = "0s"
+  log = "build-errors.log"
+  poll = false
+  poll_interval = 0
+  post_cmd = []
+  pre_cmd = []
+  rerun = false
+  rerun_delay = 500
+  send_interrupt = false
+  stop_on_error = false
+
+  [build.windows]
+    args_bin = ["PORT=3000"]
+    entrypoint = ["./tmp/main.exe"]
+    cmd = "go build -o ./tmp/main.exe ./src/main.go"
+    full_bin = ""
+    post_cmd = []
+    pre_cmd = []
+
+[color]
+  app = "purple"
+  build = "yellow"
+  main = "magenta"
+  mode = "auto"
+  runner = "green"
+  watcher = "cyan"
+
+[log]
+  main_only = false
+  silent = false
+  time = false
+
+[misc]
+  clean_on_exit = false
+
+[proxy]
+  app_port = 0
+  app_start_timeout = 0
+  enabled = false
+  proxy_port = 0
+
+[screen]
+  clear_on_rebuild = false
+  keep_scroll = true
