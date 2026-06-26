@@ -2,11 +2,18 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
 	"strings"
 )
+
+type User struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+	Age   int    `json:"age"`
+}
 
 func init() {
 	// load environment variables from .env file
@@ -26,7 +33,11 @@ func main() {
 
 	fmt.Printf("Starting server on http://localhost%s\n", port)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, World! Welcome to my Go web server.")
+		user := User{}
+
+		json.NewDecoder(r.Body).Decode(&user)
+		fmt.Fprintf(w, "Hello, %s! Welcome to my Go web server.", user.Name)
+		fmt.Printf("Received user data: %+v\n", user)
 	})
 
 	http.ListenAndServe(port, nil)
